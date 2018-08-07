@@ -5,6 +5,6 @@ export default () => new Promise((resolve, reject) => {
     window.auth = r.data
     resolve();
   }).catch(e => {
-    reject();
+    resolve();
   });
 });
