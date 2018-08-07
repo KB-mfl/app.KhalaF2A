@@ -5,17 +5,12 @@ class profile extends React.Component {
     super(props)
   }
 
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
 
   render() {
     return (
-      <div></div>
+      <div>
+        个人
+      </div>
     )
   }
 }

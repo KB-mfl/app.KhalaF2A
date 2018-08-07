@@ -4,7 +4,7 @@ let conf;
 try {
   conf = require('./.config');
 } catch (e) {
-   conf = require('./.config.js.example');
+  conf = require('./.config.js.example');
 }
 
 module.exports = {
