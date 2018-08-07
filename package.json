@@ -20,6 +20,8 @@
     "babel-plugin-import": "^1.8.0",
     "react-app-rewire-less": "^2.1.2",
     "react-app-rewired": "^1.5.2",
-    "react-loadable": "^5.4.0"
+    "react-loadable": "^5.4.0",
+    "sha256": "^0.2.0",
+    "store": "^2.0.12"
   }
 }

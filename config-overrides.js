@@ -21,7 +21,7 @@ module.exports = {
           target: conf.api.host,
           changeOrigin: true,
           pathRewrite: {
-            '^/api': conf.api.prefix
+            '^/api': ''
           }
         }
       }
