@@ -1,10 +1,11 @@
-import http from 'axios'
+// import http from 'axios'
 
 export default () => new Promise((resolve, reject) => {
-  http.get('auth/profile').then(r => {
-    window.auth = r.data
-    resolve();
-  }).catch(e => {
-    resolve();
-  });
+  // http.get('auth/profile').then(r => {
+  //   window.auth = r.data
+  //   resolve();
+  // }).catch(e => {
+  //   reject();
+  // });
+  reject()
 });

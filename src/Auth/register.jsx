@@ -10,9 +10,7 @@ class register extends React.Component {
     this.state = {
       confirmDirty: false,
       usernameValidate: '',
-      startUsernameValidate: false,
       emailValidate: '',
-      startEmailValidate: false,
       submiting: false
     };
   }
@@ -20,6 +18,7 @@ class register extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(err)
       if (!err) {
         this.setState({submiting: true})
         http.post('auth/register', {
@@ -62,14 +61,44 @@ class register extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
 
-  usernameValidating = () => {
+  usernameValidating = (rule, value, callback) => {
     const form = this.props.form;
-    this.setState({startUsernameValidate: true})
-    let username = form.getFieldsValue(['username'])
-    console.log(username)
-    http.get('/valid/username', {params: {username: username}}).then(r => {
+    this.setState({usernameValidate: 'validating'})
+    let username = form.getFieldsValue(['username']).username
+    if (!username) {
+      this.setState({usernameValidate: 'error'})
+      callback('请输入用户名')
+      return;
+    }
+    let Reg = /^([a-zA-Z][a-zA-Z0-9_]{0,9})$|^([\u4e00-\u9fa5]{1,10})$/;
+    console.log(Reg.test(username))
+    if (!Reg.test(username)) {
+      this.setState({usernameValidate: 'error'})
+      callback('请检查用户名(以英文字母或中文字符开头，不超过10个字符)')
+      return;
+    }
+    this.setState({usernameValidate: 'success'})
+    this.setState({usernameHelp: '用户名可使用'})
+    callback()
+  }
 
-    })
+  emailValidating = (rule, value, callback) => {
+    const form = this.props.form;
+    this.setState({emailValidate: 'validating'});
+    let email = form.getFieldsValue(['email']).email
+    if (!email) {
+      this.setState({emailValidate: 'error'})
+      callback('请输入邮箱')
+      return
+    }
+    let Reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/
+    if (!Reg.test(email)) {
+      this.setState({emailValidate: 'error'})
+      callback('请检查邮箱格式')
+      return;
+    }
+    this.setState({emailValidate: 'success'})
+    callback()
   }
 
   render() {
@@ -78,25 +107,29 @@ class register extends React.Component {
       <Form onSubmit={this.handleSubmit} layout="vertical">
         <FormItem
           label="用户名"
+          validateStatus = {this.state.usernameValidate}
+          hasFeedback
         >
           {getFieldDecorator('username', {
             rules: [{
-              type: 'string',
-              pattern: /^([a-zA-Z][a-zA-Z0-9_]{0,9})$|^([\u4e00-\u9fa5]{1,10})$/,
-              message: '请检查用户名(以英文字母或中文字符开头，不超过10个字符)'
+              required: true, message: ' ',
             }, {
-              required: true, message: '请输入用户名',
+              validator: this.usernameValidating
             }],
           })(
             <Input />
           )}
         </FormItem>
-        <FormItem label="邮箱">
+        <FormItem
+          label="邮箱"
+          validateStatus = {this.state.emailValidate}
+          hasFeedback
+        >
           {getFieldDecorator('email', {
             rules: [{
-              type: 'email', message: '请检查邮箱格式',
+              required: true, message: ' ',
             }, {
-              required: true, message: '请输入邮箱',
+              validator: this.emailValidating
             }],
           })(
             <Input />
