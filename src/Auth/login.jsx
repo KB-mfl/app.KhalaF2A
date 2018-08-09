@@ -3,6 +3,7 @@ import { Form, Icon, Input, Button } from 'antd';
 import sha256 from 'sha256';
 import {message} from 'antd';
 import http from '../service';
+import store from 'store'
 const FormItem = Form.Item;
 class login extends React.Component {
   constructor(props) {
@@ -23,7 +24,12 @@ class login extends React.Component {
         }).then(r => {
           message.success('登陆成功', 1).then(() => {
             this.setState({submiting: false})
-            window.location.reload();
+            store.set('token', {
+              accessToken: r.data.data.accessToken,
+              refreshToken: r.data.data.refreshToken
+            })
+            console.log(window)
+            // window.location.reload();
           })
         }).catch(e => {
           this.setState({submiting: false})
@@ -39,7 +45,7 @@ class login extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit} layout="vertical">
         <FormItem>
-          {getFieldDecorator('mail', {
+          {getFieldDecorator('email', {
             rules: [{
               type: 'email', message: '请检查邮箱格式',
             }, {

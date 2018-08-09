@@ -28,7 +28,7 @@ class register extends React.Component {
         }).then(r => {
           message.success('注册成功，请登录', 1).then(() => {
             this.setState({submiting: false})
-            window.location.reload();
+            // window.location.reload();
           })
         }).catch(e => {
           this.setState({submiting: false})
@@ -77,9 +77,16 @@ class register extends React.Component {
       callback('请检查用户名(以英文字母或中文字符开头，不超过10个字符)')
       return;
     }
-    this.setState({usernameValidate: 'success'})
-    this.setState({usernameHelp: '用户名可使用'})
-    callback()
+    http.get('auth/valid/username', {params: {username: username}}).then(r => {
+      console.log(r)
+      if (r.data.status.code === 200) {
+        this.setState({usernameValidate: 'success'})
+        callback()
+      } else {
+        this.setState({usernameValidate: 'error'})
+        callback(r.data.status.msg)
+      }
+    })
   }
 
   emailValidating = (rule, value, callback) => {
@@ -97,8 +104,16 @@ class register extends React.Component {
       callback('请检查邮箱格式')
       return;
     }
-    this.setState({emailValidate: 'success'})
-    callback()
+    http.get('auth/valid/email', {params: {email: email}}).then(r => {
+      console.log(r)
+      if (r.data.status.code === 200) {
+        this.setState({emailValidate: 'success'})
+        callback()
+      } else {
+        this.setState({emailValidate: 'error'})
+        callback(r.data.status.msg)
+      }
+    })
   }
 
   render() {
