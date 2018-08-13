@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Icon } from 'antd';
 import lazyload from '../lazyload.js';
+import store from 'store'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import './App.less'
 import AppSider from './AppSider';
@@ -9,15 +10,38 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: false
+      collapsed: store.get('HomeCollapsed') || false
     };
   }
 
+  componentDidMount() {
+    const fun = this.listenSize;
+    window.addEventListener('resize', fun)
+  }
+  componentWillUnmount() {
+    const fun = this.listenSize;
+    window.removeEventListener('resize', fun)
+  }
+
+  listenSize = () => {
+    if (document.body.clientWidth < 576) {
+      this.setState({
+        collapsed: true,
+      });
+      store.set('HomeCollapsed', true)
+    } else {
+      this.setState({
+        collapsed: false,
+      });
+      store.set('HomeCollapsed', false)
+    }
+  }
 
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
+    store.set('HomeCollapsed', !this.state.collapsed)
   };
 
 

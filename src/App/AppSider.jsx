@@ -7,7 +7,8 @@ class AppSider extends React.Component {
     super(props);
     this.SiderList = [
       {key: 'dashboard', title: '控制中心', icon: 'pie-chart'},
-      {key: 'user', title: '个人中心', icon: 'user'}
+      {key: 'user', title: '个人中心', icon: 'user'},
+      {key: 'notification', title: '消息中心', icon: 'notification'}
     ];
   }
 
