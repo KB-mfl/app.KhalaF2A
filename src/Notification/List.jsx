@@ -70,7 +70,7 @@ class List extends React.Component {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      render: () => (<Button type="primary">查看</Button>)
+      render: (action) => (<Button type="primary" onClick={this.showDetail.bind(this, action)}>查看</Button>)
     }];
 
     let readData = [];
@@ -111,17 +111,13 @@ class List extends React.Component {
     }
     return (
       <div>
-        {
-          (
-            this.state.show &&
-            <Detail
-              owner={this.state.action.owner}
-              title={this.state.action.title}
-              type={this.state.action.type}
-              cancel={this.modalCancel}
-            />
-          )
-        }
+        <Detail
+          owner={this.state.action.owner}
+          title={this.state.action.title}
+          type={this.state.action.type}
+          visible={this.state.show}
+          cancel={this.modalCancel}
+        />
         <Tabs defaultActiveKey="unread">
           <TabPane tab="未读消息" key="unread">
             <Table {...state} columns={unreadColumns} dataSource={unreadData} rowKey={unreadData => unreadData.key}/>

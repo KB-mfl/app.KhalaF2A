@@ -9,18 +9,14 @@ class Detail extends React.Component {
   }
 
   handleCancel = () => {
-    this.setState({
-      visible: false,
-    }, () => {
-      this.props.cancel()
-    });
+    this.props.cancel()
   }
 
   render() {
     return (
       <Modal
         title={this.props.title}
-        visible={this.state.visible}
+        visible={this.props.visible}
         onCancel={this.handleCancel}
         footer={null}
       >
