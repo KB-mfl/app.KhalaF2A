@@ -63,6 +63,8 @@ class App extends Component {
               <Route exact path="/dashboard" component={lazyload(() => import('../Dashboard/dashboard'))}/>
               <Route exact path="/user" component={lazyload(() => import('../User/profile'))}/>
               <Route exact path="/notification" component={lazyload(() => import('../Notification/List'))}/>
+              <Route exact path="/groups" component={lazyload(() => import('../Groups/table'))}/>
+              <Route exact path="/groups/members" component={lazyload(()=> import('../Groups/MemberProfile'))}/>
             </Content>
           </Layout>
         </Layout>

@@ -8,8 +8,13 @@ class AppSider extends React.Component {
     this.SiderList = [
       {key: 'dashboard', title: '控制中心', icon: 'pie-chart'},
       {key: 'user', title: '个人中心', icon: 'user'},
-      {key: 'notification', title: '消息中心', icon: 'notification'}
-    ];
+      {key: 'notification', title: '消息中心', icon: 'notification'},
+      {key:'groups',title:'团队管理',icon:'team'}
+    ]
+    // this.Groups=[
+    //   {key:'team',title:'团队信息'},
+    //   {key:'member',title:'成员信息'}
+    // ];
   }
 
   getSiderKey = () => {
